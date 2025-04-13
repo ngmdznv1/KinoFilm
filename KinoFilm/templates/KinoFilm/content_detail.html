@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+
+{% block main %}
+
+
+<div class="d-flex">
+
+    <div class="col-8">
+
+        <div class="card">
+            <div class="card-body">
+
+                <video autoplay controls preload="metadata" width="100%">
+                    <source src="{{ content.get_video }}" type="video/mp4">
+                </video>
+
+                <div>
+                    <h5 class="text-center">{{ content.name }}</h5>
+
+
+                    <p>Просмотров • {{ content.total_views }}</p>
+                    <p>Дата: {{ content.created_at }}</p>
+
+
+                    <p class="text-center" style="margin-top: 20px;">
+                        <a class="navbar-brand" data-bs-toggle="collapse" href="#collapseExample" role="button"
+                           aria-expanded="false" aria-controls="collapseExample">
+                            Подробнее...
+                        </a>
+                    </p>
+
+                    <div class="collapse" id="collapseExample">
+                        <div class="card card-body">
+                            {{ content.description }}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <h4 class="text-center my-3">0 комментариев</h4>
+            {% if request.user.is_authenticated %}
+            <form class="comment_form" action="{% url 'comment_save' content.pk %}" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                <button class="btn btn-dark" type="submit">Отправить</button>
+            </form>
+            {% else %}
+            <p class=""> <a href="{% url 'login' %}">Авторизуйтесь</a> чтобы оставить комментарий</p>
+            {% endif %}
+        </div>
+
+        <div class="mt-5 comments">
+            {% for comment in comments %}
+            <div class="d-flex comment_text mt-4">
+                <img src="https://cs6.pikabu.ru/avatars/308/v308326.jpg" alt="" height="50" width="50"
+                     class="rounded-circle avatar">
+
+                <div class="mx-4">
+                    <h6>{{ comment.user.username }} Пользователь <span>{{ comment.created_at }}</span></h6>
+                    <p>{{ comment.text }}</p>
+                </div>
+
+                {% if comment.user == request.user %}
+                <div class="dropdown action_block">
+                    <a class="btn btn-black" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                        <i class="bi bi-three-dots-vertical"></i>
+                    </a>
+                    <ul class="dropdown-menu bg-dark">
+                        <li class="mx-3 mb-2"><a class="text-light" href="#">Изменить</a></li>
+                        <li class="mx-3 mb-2"><a class="text-light" href="{% url 'comment_delete' comment.pk %}">Удалить</a></li>
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    <div class="col-3">
+        <h4 class="text-center">Рекомендации</h4>
+        {% for content in contents %}
+        <a href="{% url 'content' content.pk %}" style="text-decoration: none;">
+            <div class="d-flex mt-3 mx-5 w-100">
+                <img src="{{ content.get_image }}" alt="" width="150px" height="100px" class="rounded">
+
+                <div class="mx-3 mb-3">
+                    <h6 class="text-dark">{{ content.name|truncatechars:15 }}</h6>
+                    <span class="text-secondary">{{ content.created_at }}</span>
+                    <p class="text-secondary"> {{ content.total_views }} просмотров </p>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+</div>
+
+
+{% endblock main %}

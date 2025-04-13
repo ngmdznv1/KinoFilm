@@ -1,0 +1,65 @@
+*{
+    text-decoration: none !important;
+    list-style: none !important;
+}
+
+
+.messages {
+    width: 250px !important;
+    margin: 0 auto !important;
+    text-align: center !important;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+.alert {
+    margin-top: 15px !important;
+    background: black;
+    border: 1px solid white;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.comment_text{
+    position: relative;
+}
+
+.action_block{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.edit p label:last-child{
+    display: none;
+}
+
+.edit div{
+    display: none;
+}
+
+.helptext{
+    display: none;
+}
+
+
+
+
+
+
+
+

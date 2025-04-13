@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block main %}
+
+<div class="d-flex justify-content-center">
+
+    <div class="col-4">
+        <h4 class="text-center">{{ title }}</h4>
+        <div class="card p-3 bg-dark text-light">
+            <form action="" method="post" enctype="multipart/form-data", class="edit">
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                <button class="btn btn-success w-100" type="submit">Изменить</button>
+            </form>
+            <hr>
+
+            <a href="{% url 'profile' %}" class="btn btn-primary">Назад в профиль</a>
+
+
+        </div>
+    </div>
+
+
+</div>
+
+
+{% endblock main %}
